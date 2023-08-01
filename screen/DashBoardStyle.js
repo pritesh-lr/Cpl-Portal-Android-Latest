@@ -41,11 +41,12 @@ const styles = StyleSheet.create({
 		padding: 10,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
-		backgroundColor: '#000'
+		backgroundColor: '#000',
+		alignItems:"center"
 	},
 	button: {
 		color: 'white',
-		fontSize: 12
+		fontSize: 14
 	},
 
 });

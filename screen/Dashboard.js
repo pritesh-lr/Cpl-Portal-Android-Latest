@@ -31,9 +31,9 @@ export default function Dashboard() {
 
   const webviewRef = useRef(null);
 
-  // useEffect(() => {
-  //   loaded.current = true;
-  // }, []);
+  useEffect(() => {
+    loaded.current = true;
+  }, []);
 
   useEffect(() => {
     CookieManager.get('https://www.countyprestress.com').then(res => {
