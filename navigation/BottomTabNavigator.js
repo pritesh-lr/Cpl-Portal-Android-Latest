@@ -28,7 +28,7 @@ export default function BottomTabNavigator({ navigation, route }) {
         name="Info"
         component={Info}
         options={{
-          title: 'Info',
+          headerShown:false,
           tabBarIcon: ({ focused }) => <TabBarIcon focused={focused} name="info-circle" />,
         }}
       />      

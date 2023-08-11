@@ -82,21 +82,20 @@ class AppSlider extends Component {
    // console.log(this.state.activeIndex);
     const animatedStyle = {top: this.state.posY};
     const animatedStyle2 = {top: this.state.posX};
-
     return (
       <View
         style={{
-          alignItems: 'center',
+          alignItems: "center",
           flex: 1,
-          backgroundColor: '#ffffff',
-        }}>
+          backgroundColor: "#ffffff",
+        }}
+      >
         {this.state.activeIndex === 2 ? (
           <>
             <View>
               <BackgroundVideo
-                takevalue={(e) =>
-                  this.props.onSignInClick(e)
-                }></BackgroundVideo>
+                takevalue={(e) => this.props.onSignInClick(e)}
+              ></BackgroundVideo>
             </View>
           </>
         ) : index === 1 ? (
@@ -105,9 +104,9 @@ class AppSlider extends Component {
               <View
                 style={{
                   marginTop: index === 0 ? 300 : index === 1 ? 90 : null,
-                  alignItems: 'center',
-                  
-                }}>
+                  alignItems: "center",
+                }}
+              >
                 <Image
                   source={item.imgUrl}
                   style={{
@@ -122,21 +121,23 @@ class AppSlider extends Component {
             <View>
               <Text
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                   fontSize: 27,
-                }}>
+                }}
+              >
                 {item.text}
               </Text>
               <Text
                 style={{
-                  textAlign: 'center',
-                  fontWeight: index === 1 ? null : 'bold',
+                  textAlign: "center",
+                  fontWeight: index === 1 ? null : "bold",
                   fontSize: 16,
                   marginTop: index === 1 ? 15 : null,
-                  color: index === 1 && 'gray',
+                  color: index === 1 && "gray",
                   width: 355,
                   margin: 0,
-                }}>
+                }}
+              >
                 {item.text2}
               </Text>
             </View>
@@ -148,38 +149,45 @@ class AppSlider extends Component {
                 {
                   opacity: this.state.fadeAnimation,
                 },
-              ]}>
-              {this.state.firstScreenActive && <View style={{marginTop: '80%'}}>
-                <Text
+              ]}
+            >
+              {this.state.firstScreenActive && (
+                <View style={{ marginTop: "80%" }}>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: index === 1 ? "bold" : null,
+                      fontSize: 20,
+                      color: "black",
+                    }}
+                  >
+                    {item.text}
+                  </Text>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: index === 1 ? null : "bold",
+                      fontSize: index === 1 ? 15 : 25,
+                      color: "black",
+                    }}
+                  >
+                    {item.text2}
+                  </Text>
+                </View>
+              )}
+              {this.state.firstScreenActive && (
+                <View
                   style={{
-                    textAlign: 'center',
-                    fontWeight: index === 1 ? 'bold' : null,
-                    fontSize: 20,
-                    color:'black'
-                  }}>
-                  {item.text}
-                </Text>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontWeight: index === 1 ? null : 'bold',
-                    fontSize: index === 1 ? 15 : 25,
-                    color:'black'
-                  }}>
-                  {item.text2}
-                </Text>
-              </View>}
-              {this.state.firstScreenActive && <View
-                style={{
-                  marginTop: index === 0 ? 30 : index === 1 ? 90 : null,
-                  alignItems: 'center',
-                  
-                }}>
-                <Image
-                  source={require('./../assets/images/left.gif')}
-                  style={{width: 100, height: 100}}
-                />
-              </View>}
+                    marginTop: index === 0 ? 30 : index === 1 ? 90 : null,
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    source={require('./../assets/images/left.gif')}
+                    style={{ width: 100, height: 100 }}
+                  />
+                </View>
+              )}
             </Animated.View>
           </>
         ) : null}

@@ -99,7 +99,7 @@ android {
         applicationId "com.cplportalapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
+        versionCode 11
         versionName "1.1"
     }
 
@@ -113,16 +113,16 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('CMCPortal.jks')
-            storePassword 'cmcportal'
-            keyAlias 'key0'
-            keyPassword 'cmcportal'
+            storeFile file('keystore.jks')
+            storePassword 'cplportal'
+            keyAlias 'upload'
+            keyPassword 'cplportal'
         }
         release {
-            storeFile file('CMCPortal.jks')
-            storePassword 'cmcportal'
-            keyAlias 'key0'
-            keyPassword 'cmcportal'
+            storeFile file('keystore.jks')
+            storePassword 'cplportal'
+            keyAlias 'upload'
+            keyPassword 'cplportal'
         }
     }
     buildTypes {
@@ -162,6 +162,9 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
     implementation project(':react-native-fs')
     implementation project(':react-native-splash-screen')
+    implementation 'com.facebook.fresco:animated-gif:2.6.0'
+    implementation 'com.facebook.fresco:animated-webp:2.6.0'
+    implementation 'com.facebook.fresco:webpsupport:2.0.0' 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'

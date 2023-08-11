@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   Modal,
+  Alert,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import styles from './DashBoardStyle';
@@ -187,7 +188,8 @@ export default function Dashboard() {
                 RNFetchBlob.ios.previewDocument(configs.path);
               }
               if (Platform.OS == 'android') {
-                console.log('DONWLOAD SUCCESSS');
+                Toast.show(`File Downloading from ${configs.path}`,Toast.LONG,Toast.BOTTOM);
+                Alert.alert('Succeed!',"Your file has been downloaded successfully")
               }
               console.log('The file saved to ', res);
             });
