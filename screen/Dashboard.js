@@ -188,7 +188,11 @@ export default function Dashboard() {
                 RNFetchBlob.ios.previewDocument(configs.path);
               }
               if (Platform.OS == 'android') {
-                Toast.show(`File Downloading from ${configs.path}`,Toast.LONG,Toast.BOTTOM);
+                Toast.show(
+                  `File downloaded ${configs.path}`,
+                  Toast.LONG,
+                  Toast.BOTTOM
+                );
                 Alert.alert('Succeed!',"Your file has been downloaded successfully")
               }
               console.log('The file saved to ', res);
