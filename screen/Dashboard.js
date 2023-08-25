@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, Fragment} from 'react';
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import {
   Image,
   AsyncStorage,
@@ -10,41 +10,26 @@ import {
   View,
   Modal,
   Alert,
-} from 'react-native';
-import {WebView} from 'react-native-webview';
-import styles from './DashBoardStyle';
-import Toast from 'react-native-simple-toast';
-import RNFetchBlob from 'rn-fetch-blob';
-var RNFS = require('react-native-fs');
-import FileViewer from 'react-native-file-viewer';
-import DocumentPicker from 'react-native-document-picker';
-import CookieManager from '@react-native-cookies/cookies';
+} from "react-native";
+import { WebView } from "react-native-webview";
+import styles from "./DashBoardStyle";
+import Toast from "react-native-simple-toast";
+import RNFetchBlob from "rn-fetch-blob";
+var RNFS = require("react-native-fs");
+import FileViewer from "react-native-file-viewer";
+import DocumentPicker from "react-native-document-picker";
+import CookieManager from "@react-native-cookies/cookies";
 
-const {dirs} = RNFetchBlob.fs;
+const { dirs } = RNFetchBlob.fs;
 
 export default function Dashboard() {
+  const webviewRef = useRef(null);
   const [url, setUrl] = useState(`https://www.countyprestress.com/sso`);
-  const [reload, setReload] = useState(false);
   const [visible, setVisible] = useState(true);
   const [modal, setModal] = useState(false);
-  const [authToken, setAuthToken] = useState(undefined);
-  const loaded = useRef(null);
-
-  const webviewRef = useRef(null);
-
-  useEffect(() => {
-    loaded.current = true;
-  }, []);
-
-  useEffect(() => {
-    CookieManager.get('https://www.countyprestress.com').then(res => {
-      setAuthToken(res);
-    });
-  });
 
   const handleReload = () => {
-    setReload(!reload);
-    setUrl(`https://www.countymaterials.com/en/portal-dashbaord`);
+    setUrl(`https://www.countyprestress.com/en/portal-dashboard`);
   };
 
   const backButtonHandler = () => {
@@ -61,9 +46,8 @@ export default function Dashboard() {
         type: [DocumentPicker.types.allFiles],
       });
       await FileViewer.open(res.uri);
-      console.log('res.uri ---------------------->', res.uri);
     } catch (e) {
-      console.log('error --->', e);
+      console.log("error --->", e);
     }
   };
 
@@ -109,12 +93,8 @@ export default function Dashboard() {
 		window.ReactNativeWebView.postMessage("Hello!");
 	`;
 
-  function hideSpinner() {
-    setVisible(false);
-  }
-
   async function handleLinkPress(url) {
-    console.log('Getting requested url is: ---', url);
+    // console.log('Getting requested url is: ---', url);
     // const fileLink = url.split("/");
     // if (fileLink[fileLink.length - 1] === "file") {
     //   const { dirs } = RNFetchBlob.fs;
@@ -157,9 +137,9 @@ export default function Dashboard() {
     //     }
     //   });
     // } else
-    if (url.includes('view=download')) {
+    if (url.includes("view=download")) {
       const dirToSave =
-        Platform.OS == 'ios' ? dirs.DocumentDir : dirs.DownloadDir;
+        Platform.OS == "ios" ? dirs.DocumentDir : dirs.DownloadDir;
       const fileName = `${Math.round(+new Date() / 1000)}.zip`;
       const configs = {
         useDownloadManager: false,
@@ -172,30 +152,34 @@ export default function Dashboard() {
         ios: {
           title: configs.title,
           path: configs.path,
-          appendExt: 'zip',
+          appendExt: "zip",
         },
         android: configs,
       });
 
-      await RNFS.exists(configs?.path).then(async exists => {
+      await RNFS.exists(configs?.path).then(async (exists) => {
         if (exists) {
-          console.log('File exists!');
+          console.log("File exists!");
         } else {
           await RNFetchBlob.config(configOptions)
-            .fetch('GET', url, {})
-            .then(res => {
-              if (Platform.OS === 'ios') {
+            .fetch("GET", url, {})
+            .then((res) => {
+              if (Platform.OS === "ios") {
                 RNFetchBlob.ios.previewDocument(configs.path);
               }
-              if (Platform.OS == 'android') {
+              if (Platform.OS == "android") {
                 Toast.show(
                   `File downloaded ${configs.path}`,
                   Toast.LONG,
                   Toast.BOTTOM
                 );
-                Alert.alert('Succeed!',"Your file has been downloaded successfully")
+                setVisible(false);
+                Alert.alert(
+                  "Succeed!",
+                  "Your file has been downloaded successfully"
+                );
               }
-              console.log('The file saved to ', res);
+              console.log("The file saved to ", res);
             });
         }
       });
@@ -205,49 +189,51 @@ export default function Dashboard() {
   return (
     <View style={styles.container}>
       <Fragment>
-        {visible && loaded.current && (
+        {visible && (
           <View
             style={{
-              backgroundColor: 'white',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100%',
-              width: '100%',
-            }}>
+              backgroundColor: "white",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+              width: "100%",
+            }}
+          >
             <Image
-              source={require('../assets/images/giphy.gif')}
-              style={{height: 100, width: 100}}
+              source={require("../assets/images/giphy.gif")}
+              style={{ height: 100, width: 100 }}
             />
           </View>
         )}
         <WebView
           javaScriptEnabled={true}
           domStorageEnabled={true}
-          mixedContentMode={'compatibility'}
+          mixedContentMode={"compatibility"}
           startInLoadingState={true}
           ref={webviewRef}
-          onLoadStart={() => {
-            setVisible(true);
-          }}
           source={{
             uri: url,
           }}
           injectedJavaScript={customScript}
           allowUniversalAccessFromFileURLs={true}
           allowFileAccessFromFileURLs={true}
-          onLoad={hideSpinner}
-          onShouldStartLoadWithRequest={request => {
+          onShouldStartLoadWithRequest={(request) => {
+            setVisible(true);
             handleLinkPress(request.url);
             return true;
+          }}
+          onLoadEnd={(e) => {
+            setUrl(e?.nativeEvent?.url);
+            setVisible(false);
           }}
         />
       </Fragment>
       <View style={styles.tabBarContainer}>
         <TouchableOpacity onPress={backButtonHandler}>
           <Image
-            source={require('../assets/images/arrow-back.png')}
-            style={{width: 24, height: 24}}
+            source={require("../assets/images/arrow-back.png")}
+            style={{ width: 24, height: 24 }}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleReload}>
@@ -255,8 +241,8 @@ export default function Dashboard() {
         </TouchableOpacity>
         <TouchableOpacity onPress={reloadButtonHandler}>
           <Image
-            source={require('../assets/images/refresh.png')}
-            style={{width: 24, height: 24}}
+            source={require("../assets/images/refresh.png")}
+            style={{ width: 24, height: 24 }}
           />
         </TouchableOpacity>
       </View>
@@ -266,26 +252,26 @@ export default function Dashboard() {
             <View style={styless.centeredView}>
               <View style={styless.modalView}>
                 <Text
-                  style={
-                    styless.modalText
-                  }>{`File downloaded to your device.`}</Text>
+                  style={styless.modalText}
+                >{`File downloaded to your device.`}</Text>
                 <View
                   style={{
-                    flexDirection: 'row',
-                    alignSelf: 'flex-end',
+                    flexDirection: "row",
+                    alignSelf: "flex-end",
                     marginRight: 0,
                     paddingLeft: 15,
                     paddingRight: 5,
-                    justifyContent: 'space-between',
-                    display: 'flex',
-                  }}>
+                    justifyContent: "space-between",
+                    display: "flex",
+                  }}
+                >
                   <TouchableOpacity onPress={() => openLocalStorage()}>
-                    <Text style={{color: 'blue', paddingRight: 15}}>
+                    <Text style={{ color: "blue", paddingRight: 15 }}>
                       View File
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => setModal(false)}>
-                    <Text style={{color: 'blue'}}>Close</Text>
+                    <Text style={{ color: "blue" }}>Close</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -300,20 +286,20 @@ export default function Dashboard() {
 const styless = StyleSheet.create({
   centeredView: {
     flex: 1,
-    position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: "absolute",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   modalView: {
     margin: 50,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
     //   alignItems: "center",
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -324,7 +310,7 @@ const styless = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
-    color: 'black',
+    textAlign: "center",
+    color: "black",
   },
 });
