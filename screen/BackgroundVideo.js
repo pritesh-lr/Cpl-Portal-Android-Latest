@@ -81,38 +81,46 @@ export default class BackgroundVideo extends Component {
   renderButton = () => {
     const animatedStyle = {bottom: this.state.posX, alignItems: 'center'};
     return (
-      <View style={{marginLeft: 0}}>
+      <View style={{ marginLeft: 0 }}>
         <Animated.View style={[animatedStyle]}>
           <ButtonWrapper>
             <Fragment>
-              <TouchableOpacity onPress={() => this.signInClicked()}>
-                <View style={styles.button}>
-                  <Text style={styles.buttonText}>SIGN IN</Text>
-                </View>
-              </TouchableOpacity>
+              <View style={{ bottom: 20 }}>
+                <TouchableOpacity onPress={() => this.signInClicked()}>
+                  <View style={styles.button}>
+                    <Text style={styles.buttonText}>SIGN IN</Text>
+                  </View>
+                </TouchableOpacity>
 
-              <View style={{marginTop: 10}}>
-                <Text style={{color: 'white', textAlign: 'center'}}>
-                  Trouble logging in?
-                </Text>
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'center',
-                  }}>
-                  <Text style={{color: 'white'}}>Contact </Text>
-                  <TouchableOpacity
-                    onPress={() =>
-                      Linking.openURL(
-                        'mailto:portalsupport@countyprestress.com',
-                      )
-                    }>
-                    <Text
-                      style={{color: 'white', textDecorationLine: 'underline'}}>
-                      Portal Support
-                    </Text>
-                  </TouchableOpacity>
+                <View style={{ marginTop: 10 }}>
+                  <Text style={{ color: "white", textAlign: "center" }}>
+                    Trouble logging in?
+                  </Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text style={{ color: "white" }}>Contact </Text>
+                    <TouchableOpacity
+                      onPress={() =>
+                        Linking.openURL(
+                          "mailto:portalsupport@countyprestress.com"
+                        )
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: "white",
+                          textDecorationLine: "underline",
+                        }}
+                      >
+                        Portal Support
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </Fragment>
