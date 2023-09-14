@@ -226,6 +226,7 @@ export default function Dashboard() {
           source={{
             uri: url,
           }}
+          androidLayerType="hardware"
           injectedJavaScript={customScript}
           allowUniversalAccessFromFileURLs={true}
           allowFileAccessFromFileURLs={true}
